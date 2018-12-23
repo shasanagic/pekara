@@ -1,0 +1,174 @@
+.nazivContainer{
+  margin-top:50px;
+  margin-bottom:50px;
+}
+#spremiRecept{
+  margin-left: 20px;
+}
+/* Remove the navbar's default margin-bottom and rounded borders*/
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed)
+.row.content {height: 100%} a6a6a6
+*/
+/* Set gray background color and 100% height  tamno siva 42586c */
+/* standardna siva koja radi na malom ekranu ali ne na velikom f1f1f1 */
+.sidenav {
+  position: relative;
+  padding-top: 20px;
+  background-color: #a6a6a6;
+height: 1250px;
+}
+
+/* razmisliti da li koristiti custom buttone  #262626*/
+.btnUredenZaSideNav{
+/*    background-color: #a6a6a6;    */
+position: static;
+padding-top: 20px;
+/*    background-color: white;  */
+    color: black;
+    font-style: normal;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.bojaButtnona{
+  color: #262626;
+}
+
+
+
+.sidenavDesni {
+  position: static;
+  padding-top: 20px;
+  background-color: #a6a6a6;
+height: 1250px;
+}
+
+
+.glavniDioForme {
+  position: relative;
+  padding-top: 20px;
+  background-color: #ffffff;
+height: 1000px;
+}
+
+.linkSideNavUredeno {
+    color: #333333;
+  font-size: 18px;
+}
+
+.napomenaIliAlert {
+    color: #ff0000;
+  font-size: 10px;
+}
+
+/* Set black background color, white text and some padding */
+.footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+
+
+/* On small screens, set height to 'auto' for sidenav and grid
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {height:auto;}
+  */
+  .small-btn {
+        width: 50px;
+        height: 25px;
+    }
+
+    .medium-btn {
+        width: 70px;
+        height: 30px;
+    }
+
+    .big-btn {
+        width: 150px;
+        height: 50px;
+    }
+
+    .hidden {
+        display: block;
+    }
+
+}
+
+
+
+
+/*  ZA CENTRIRANJE BUTTONA NA DRUGOJ FORMI   */
+.wrapperZaButton {
+    text-align: center;
+}
+
+.buttonCenter {
+  margin:auto;
+  display:block;
+  /*
+    position: static;
+    top: 50%;
+    */
+}
+
+
+
+/* za modal, updateanje korisnika  */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.hiddenDugme {
+  visibility: hidden;
+}

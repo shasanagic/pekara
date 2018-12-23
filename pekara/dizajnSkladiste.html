@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pekarsko skladište</title>
+  <meta charset="utf-8">
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <!-- -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Latest compiled and minified CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- CSS SKRIPTA  -->
+    <link rel="stylesheet" href="dizajnSkladiste.css">
+  <!-- CSS SKRIPTA  -->
+
+
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+  <script>
+      // Initialize Firebase
+      var config = {
+          apiKey: "AIzaSyAjwOMH_MYRP37p4-1Mftj3eNIQJGPclv4",
+          authDomain: "test-za-web.firebaseapp.com",
+          databaseURL: "https://test-za-web.firebaseio.com",
+          projectId: "test-za-web",
+          storageBucket: "test-za-web.appspot.com",
+          messagingSenderId: "843603869280"
+      };
+      firebase.initializeApp(config);
+  </script>
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+
+<!--  JS  -
+<script src="C:\Users\Sean\Documents\VS2017\dizajnPočetne\homeDizajn.js"></script>
+<!-- JS   -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--  JS  -->
+    <script src="dizajnSkladiste.js"></script>
+  <!-- JS   -->
+
+
+
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Skladište pekare</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ><a href="dizajnNaloga.html" >Nalog</a></li>
+
+        <li class="active"><a href="dizajnSkladiste.html" >Skladište</a></li>
+        <li ><a href="dizajnRecepture.html" >Recepture</a></li>
+        <li ><a href="dizajnDjelatnici.html" >Djelatnici</a></li>
+
+
+        </li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Dobrodošli </a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Odjava</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-2 sidenav">
+
+<div><button class="btn-info disabled btn-lg bojaButtnona" onclick="show('divFormaZaUnosNovogArtikla');" type="button" name="button">Unos novog artikla</button></div><br>
+<div><button class="btn-info btn-lg disabled bojaButtnona" onclick="show('divZaPregledUnesenihArtikala');" type="button" name="button">Pregled unesenih artikala</button></div><br>
+<div><button class="btn-info btn-lg disabled bojaButtnona hidden" onclick="show('divUredivanjeUnesenihArtikala');" type="button" name="button">Uređivanje unesenih artikala</button></div><br>
+</div>
+
+<!--      </div>  OVO JE BIO PRVI DIV OD LIJEVOG SIDE BARA	 -->
+<div class="col-sm-8 text-left glavniDioForme" id="divBezIcega">
+
+          <div class="active" id="divFormaZaUnosNovogArtikla">
+              <form class="container-fluid col-6" name="Form" onsubmit="return validateForm()" method="post" onsubmit="return funkcijaProvjeriSvePodatke()">
+                  <h2 class="text text-center"><b><u>Unos novog artikla </u></b> </h2> <br> <br>
+                  <!--  <form name="myForm" method="post" onsubmit="return funkcijaProvjeriSvePodatke()"> --->
+                  <!--   NAZIV ARTIKLA  -->
+                  <div class="form-group">
+                      <label for="txtImeKorisnika">Naziv artikla: </label>
+                      <input type="text" name="nazivArtikla" class="form-control" placeholder="Unesite naziv artikla" id="txtNazivArtikla"><br>
+                  </div>
+                  <!--   NAZIV ARTIKLA  -->
+                  <!-- JEDINICA MJERE -->
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Odaberite jedinicu mjere:</label>
+                    <select class="form-control" id="txtOptionJedinicaMjere">
+                      <option value="KG">Kilogram</option>
+                      <option value="GR">Gram</option>
+                      <option value="L">Litra</option>
+                      <option value="KOM">Komad</option>
+                    </select>
+            <!--      </div>
+                  	<!-- JEDINICA MJERE -->
+                  <!-- JEDINICA MJERE -->
+
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <label class="input-group-text napomenaIliAlert" for="inputGroupSelect02"><i>Kada jednom odredite jedinicu mjere ne možete je kasnije mjenjati!</i></label>
+                    </div>
+                  </div>
+                  <br>
+                  <!-- JEDINICA MJERE -->
+
+                  <!--   NAZIV DOBAVLJAČA  -->
+                  <div class="form-group">
+                      <label for="txtPrezimeKorisnika">Unesite naziv dobavljača: </label>
+                      <input type="text" name="nazivDobavljaca" class="form-control" placeholder="Unesite naziv dobavljača" id="txtNazivDobavljaca"><br>
+                  </div>
+                  <!--   NAZIV DOBAVLJAČA  -->
+
+                    <!--   BARKOD PROIZVODA  -->
+                  <div class="form-group">
+                      <label for="txtPrezimeKorisnika">Unesite barkod proizvoda: </label>
+                      <input type="number" name="barkodProizvoda" class="form-control" placeholder="Unesite barkod proizvoda" id="txtBarkodProizvoeda"><br>
+                  </div>
+                  <!--   BARKOD PROIZVODA  -->
+
+                  <!--   ULAZNA CIJENA ARTIKLA  -->
+                <div class="form-group">
+                    <label for="txtPrezimeKorisnika">Ulazna cijena proizvoda: </label>
+                    <input type="number" name="ulaznaCijenaProizvoda" class="form-control" placeholder="Unesite ulaznu cijenu artikla" id="txtUlaznaCijenaProizvoda"><br>
+                </div>
+                <!--   ULAZNA CIJENA ARTIKLA  -->
+
+                  <!--   OPIS ARTIKLA  -->
+                  <div class="form-group">
+                      <label for="txtPrezimeKorisnika">Opis artikla: </label>
+                      <input type="text" name="opisArtikla" class="form-control" placeholder="Unesite opis artikla:" id="txtOpisArikla"><br>
+                  </div>
+                  <!--   OPIS ARTIKLA  -->
+
+<button class="btn btn-success col-lg-1" type="button" name="button" onclick="funZaIniciranjeArtikalaUBazu();">Potvrdi unos</button><br><br>
+<button class="btn btn-danger col-lg-1" onclick="funPrikaziAlert()" type="button" name="button">Odbaci unos</button><br>
+</div><br>
+              </form>
+          </div>
+<!----------------------------------------------------------------------------->
+<!--  2. FORMA, PREGLED UNESENIH ARTIKALA   -->
+<!----------------------------------------------------------------------------->
+          <div id="divZaPregledUnesenihArtikala" style="display:none">
+              <h2 class="text text-center"><b><u>Pregled unesenih artikala </u></b> </h2> <br> <br>
+
+
+<div class="wrapperZaButton">
+  <button id="btnDohvatiPopisArtikalaIzBaze" class="btn btn-success col-lg-5 buttonCenter" type="button" name="button" onclick="funPregledUnesenihArtikala();">Dohvati artikle</button><br><br>
+
+</div>
+
+<!-- OVAJ DIV JE ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+<div id="HTMLtoPDF">
+<!-- OVAJ DIV JE ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+<table id="ex-table" class="table table-bordered table-hover">
+
+            <tbody>
+                <tr id="tr"></tr>
+                <!-- table content  -->
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+        </div>
+
+        <script>
+                $(document).ready(function () {
+                    // $('.table').DataTable(
+                    //     {
+                    //         language: {
+                    //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                    //         }
+                    //     }
+                    // );
+                });
+            </script>
+</div>
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!-- ZAVRŠAVA DRUGA FORMA "PREGLED UNESENIH ARTIKALA"
+POČINJE IZ TABLICE DETALJAN PREGLED ARTIKALA -->
+
+          <!-- TEST ZA DETALJAN PRIKAZ ARTIKLA -->
+          <div id="divDetaljanPrikazPregledaArtikla" style="display:none">
+          <h2 class="text text-center"><b><u>Detaljan pregled artikla </u></b> </h2> <br> <br>
+<!--
+          <table class="table table-bordered">
+            <!-- ZAGLAVLJE TABLICE DETEALNOG PREGLEDA ARTIKALA -->
+            <!--
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">Naziv artikla</th>
+              <th scope="col" class="text-center">Brašno bijelo glatko tip 500</th>
+
+            </tr>
+          </thead>
+          <!-- BODY TABLICE DETEALJNOG DETALJNOG PREGLEDA ARTIKALA -->
+          <!--
+          <tbody>
+            <tr class="text-center">
+              <td>Šifra artikla</td>
+              <td>000001</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Količina na stanju</td>
+              <td>1000</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Barkod</td>
+              <td>000000015</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Naziv dobavljača artikla</td>
+              <td>Firma d.o.o.</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Ulazna cijena artikla</td>
+              <td>140 kuna</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Opis artikla</td>
+              <td>Brašno bijelo glatko tip 500 se koristi u bla.bla.bla</td>
+            </tr>
+
+          </tbody>
+        </table>
+      -->
+          </div>
+<!--  2. FORMA, PREGLED UNESENIH ARTIKALA  KRAJ */   -->
+
+<!--  3. FORMA, UREĐIVANJE UNESENIH ARTIKALA   -->
+          <div id="divUredivanjeUnesenihArtikala" style="display:none">
+            <h2 class="text text-center"><b><u>Uređivanje unesenih artikala</u></b> </h2> <br> <br>
+            <!-- PRETRAŽI PO BARKODU ARTIKLA  -->
+            <div class="form-group">
+                <label for="txtOibKorisnika" id="txtBrojMobitela">Pretraži po barkodu artikla: </label>
+                <input id="test" type="number" name="txtOibKorisnika" class="form-control" placeholder="Unesite barkod artikla"><br>
+                <button class="btn btn-success col-lg-3" type="submit" name="txtOibKorisnikaNameButton" id="btnDohvatiDetaljanPregledArtiklaPoBarkodu" onclick="show('divUrediArtikalDiv'); funDohvatiArtiklePoBarkod();">Pretraži po Barkodu artikla</button><br>
+            </div>
+            <!-- PRETRAŽI PO BARKODU ARTIKLA  -->
+
+
+            <!-- PRETRAŽI PO ŠIFRI ARTIKLA  -->
+            <div class="form-group">
+                <label for="txtOibKorisnika">Pretraži po nazivu artikla: </label>
+                <input id="txtPretraziPoNazivuArtikla" type="text" name="txtSifraArtikla" class="form-control" placeholder="Unesite naziv artikla"><br>
+                <button class="btn btn-success col-lg-3" type="button" name="txtDohvatiPobarkodu" id="btnDohvatiDetaljanPregledArtiklaPoSifriArtikla" onclick="show('divUrediArtikalDiv'); funDohvatiDodatnePostavkePoNazivuArtikla();">Pretraži po nazivu artikla</button><br>
+            </div>
+            <!-- PRETRAŽI PO ŠIFRI ARTIKLA  -->
+
+
+
+
+</div>
+
+
+
+
+            <!--  EDIT TABLICA  -->
+            <!-- TEST ZA DETALJAN PRIKAZ ARTIKLA -->
+            <div id="divUrediArtikalDiv" style="display:none">
+            <h2 class="text text-center"><b><u>Detaljan pregled artikla </u></b> </h2> <br> <br>
+
+
+                                  <table id="ex-tableOib" class="table table-bordered table-hover">
+
+                                                                        <tbody>
+                                                                            <tr id="tr"></tr>
+
+                                                                            <!-- table content  -->
+                                                                        </tbody>
+                                                                        <tfoot>
+                                                                        </tfoot>
+                                                                    </table>
+
+
+                                                                    <script>
+                                                                            $(document).ready(function () {
+                                                                                // $('.table').DataTable(
+                                                                                //     {
+                                                                                //         language: {
+                                                                                //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                                                                //         }
+                                                                                //     }
+                                                                                // );
+                                                                            });
+                                                                        </script>
+
+
+                                                                        <table id="ex-tableSifra" class="table table-bordered table-hover">
+                                                                          <tbody>
+                                                                            <tr id="tr"></tr>
+
+                                                                                                                                                              <!-- table content  -->
+                                                                                  </tbody>
+                                                                                  <tfoot>
+                                                                                  </tfoot>
+                                                                                  </table>
+                                                                                  <script>
+                                                                                          $(document).ready(function () {
+                                                                                              // $('.table').DataTable(
+                                                                                              //     {
+                                                                                              //         language: {
+                                                                                              //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                                                                              //         }
+                                                                                              //     }
+                                                                                              // );
+                                                                                          });
+                                                                                      </script>
+
+
+
+
+
+
+
+<!--          TABLICA ZA UREĐIVANJE                  -->
+<table class="table table-bordered table-hover">
+  <!--
+<tr>
+<td> <input id="txtIdArtiklaKojegZelimoIzbrisatiIliPromjeniti" type="number" class="form-control" placeholder="Unesite ID artikla:"> </td>
+</tr>
+-->
+<tr>
+<td> <input id="txtNoviOpisArikla" type="text" class="form-control" placeholder="Unesite novi opis artikla">  </td>
+</tr>
+<tr>
+<td><button class="btn btn-warning promjeniBroj" type="button" name="button" onclick="btnFunZaUpdate()">Promjeni opis artikla</button> <button class="btn btn-danger" id="btnIzbrisiKorisnikaPoOibu" type="button" name="button" onclick=" funIzrisiKorisnikaPoIdu();">Izbriši artikal</button></td>
+</tr>
+
+</table>
+<!--          TABLICA ZA UREĐIVANJE                  -->
+
+
+
+
+
+
+<!--
+
+            <table id="ex-tableSifraArtikla" class="table table-bordered table-hover">
+
+                                                              <tbody>
+                                                                  <tr id="tr"></tr>
+
+                                                                  <!-- table content  -->
+
+                                                                  <!--
+                                                              </tbody>
+                                                              <tfoot>
+                                                              </tfoot>
+                                                          </table>
+
+                                                          <!--
+                                                          <script>
+                                                                  $(document).ready(function () {
+                                                                      $('.table').DataTable(
+                                                                          {
+                                                                              language: {
+                                                                                  url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                                                              }
+                                                                          }
+                                                                      );
+                                                                  });
+                                                              </script>
+-->
+
+            <!--
+            <table class="table table-bordered">
+              <!-- ZAGLAVLJE TABLICE DETEALNOG PREGLEDA ARTIKALA -->
+              <!--
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">Naziv artikla</th>
+                <th scope="col" class="text-center">Brašno bijelo glatko tip 500</th>
+                <th scope="col" class="text-center"><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></th>
+              </tr>
+            </thead>
+            <!-- BODY TABLICE DETEALJNOG DETALJNOG PREGLEDA ARTIKALA -->
+            <!--
+            <tbody>
+              <tr class="text-center">
+                <td>Šifra artikla</td>
+                <td>000001</td>
+                <td> </td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Količina na stanju</td>
+                <td>1000</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Barkod</td>
+                <td>000000015</td>
+                <td> </td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Naziv dobavljača artikla</td>
+                <td>Firma d.o.o.</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Ulazna cijena artikla</td>
+                <td>140 kuna</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Opis artikla</td>
+                <td>Brašno bijelo glatko tip 500 se koristi u bla.bla.bla</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+            </tbody>
+          </table>
+        -->
+            </div>
+
+<!--  3. FORMA, UREĐIVANJE UNESENIH ARTIKALA  KRAJ */  -->
+        <hr>
+    </div>
+
+      <div class="col-sm-2 sidenavDesni" id="divDesniSideNav">
+        <p id="parSat"></p>
+        <script>
+var d = new Date();
+document.getElementById("parSat").innerHTML = d;
+</script>
+      </div>
+      </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Recepture</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Latest compiled and minified CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- CSS SKRIPTA  -->
+    <link rel="stylesheet" href="dizajnRecepture.css">
+  <!-- CSS SKRIPTA  -->
+
+
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+  <script>
+      // Initialize Firebase
+      var config = {
+          apiKey: "AIzaSyAjwOMH_MYRP37p4-1Mftj3eNIQJGPclv4",
+          authDomain: "test-za-web.firebaseapp.com",
+          databaseURL: "https://test-za-web.firebaseio.com",
+          projectId: "test-za-web",
+          storageBucket: "test-za-web.appspot.com",
+          messagingSenderId: "843603869280"
+      };
+      firebase.initializeApp(config);
+  </script>
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+
+<!--  JS  -
+<script src="C:\Users\Sean\Documents\VS2017\dizajnPočetne\homeDizajn.js"></script>
+<!-- JS   -->
+
+<!--  JS  -->
+<script src="dizajnRecepture.js"></script>
+<!-- JS   -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+
+<!--
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+
+
+
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Recepture</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ><a href="dizajnNaloga.html" >Nalog</a></li>
+
+        <li ><a href="dizajnSkladiste.html" >Skladište</a></li>
+        <li class="active"><a href="dizajnRecepture.html" >Recepture</a></li>
+        <li ><a href="dizajnDjelatnici.html" >Djelatnici</a></li>
+
+
+        </li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Dobrodošli </a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Odjava</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-2 sidenav">
+
+<div><button class="btn-info disabled btn-lg bojaButtnona" onclick="show('divBezIcega');" type="button" name="button">Unos novog recepta</button></div><br>
+<div><button class="btn-info btn-lg disabled bojaButtnona" onclick="show('divZaPregledUnesenihRecepata');" type="button" name="button">Pregled dosadašnjih recepta</button></div><br>
+
+</div>
+
+
+
+
+
+<!--      </div>  OVO JE BIO PRVI DIV OD LIJEVOG SIDE BARA	 -->
+<div class="col-sm-8 text-left glavniDioForme" id="divBezIcega">
+  <h3>Svaka receptura je jedinstvena te se ne može mjenjati naknadno</h3>
+
+
+
+  <div class="form-group nazivContainer">
+      <label for="txtNazivNoveRecepture">Naziv recepture: </label>
+      <input type="text" name="txtNazivNoveRecepture" value="" id="txtNazivNoveRecepture" class="form-control" placeholder="Unesite naziv nove recepture">
+  </div>
+
+      <table class="table table-bordered table-hover" id="tab_logic">
+        <thead>
+          <tr >
+            <th class="text-center">
+              Broj artikala u zamjesu
+            </th>
+            <th class="text-center">
+              Odaberite naziv artikala u zamjesu
+            </th>
+            <th class="text-center">Unesite količinu artikla u zamjesu
+            </th>
+            <th class="text-center">
+              Obriši
+            </th>
+          </tr>
+        </thead>
+        <tbody id='element_table'>
+
+        </tbody>
+      </table>
+      <!-- <input type="text" class="form-control" placeholder="Combination Here" name="combination" id="combination" readonly=""> -->
+      <a id="add_row" class="btn btn-default pull-left">Dodaj artikal u zamjes</a>
+      <a id="spremiRecept" class="btn btn-default pull-left">Spremi</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  3. FORMA, UREĐIVANJE UNESENIH ARTIKALA  KRAJ */  -->
+        <hr>
+    </div>
+
+          <!--  2. FORMA, PREGLED UNESENIH DJELATNIKA   -->
+                    <div class="col-sm-8 text-left" id="divZaPregledUnesenihRecepata" style="display:none">
+                        <h2 class="text text-center"><b><u>Pregled unesenih recepata </u></b></h2><br>
+                        <div class="wrapperZaButton">
+                          <button id="btnDohvatiDjelatnikeDrugaFormaPregledDjelatnika" class="btn btn-success col-lg-5 buttonCenter" type="button" name="button" onclick="funPregledUnesenihKorisnika();">Dohvati Recepte</button>
+          </div>
+                        <table id="ex-table" class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr id="tr"></tr>
+                                        <!-- table content  -->
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                                <script>
+                                        $(document).ready(function () {
+                                            // $('.table').DataTable(
+                                            //     {
+                                            //         language: {
+                                            //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                            //         }
+                                            //     }
+                                            // );
+                                        });
+                                    </script>
+
+
+  <!-- FORMA ZA BRISANJE RECEPATA POČINJE -->
+  <div id="divUrediPostojecegDjelatnika" style="display:none">
+              <table id="ex-tableOib" class="table table-bordered table-hover">
+
+                                        <tbody>
+                                            <tr id="tr"></tr>
+
+                                            <!-- table content  -->
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                    <hr>
+
+                                    <!--          TABLICA ZA UREĐIVANJE                  -->
+                                    <table class="table table-bordered table-hover">
+                                      <tr>
+                                        <td><button class="btn btn-danger" id="btnIzbrisiKorisnikaPoOibu" type="button" name="button" onclick=" funTestDruga();">Izbriši Recept</button></td>
+                                      </tr>
+                                    </table>
+  <!-- FORMA ZA BRISANJE RECEPATA ZAVRŠAVA -->
+          	</div>
+</div>
+
+
+
+
+
+
+
+
+
+      <div class="col-sm-2 sidenavDesni" id="divDesniSideNav">
+        <p id="parSat"></p>
+        <script>
+var d = new Date();
+document.getElementById("parSat").innerHTML = d;
+</script>
+</div>
+      </div>
+      </div>
+    </div>
+
+</body>
+</html>

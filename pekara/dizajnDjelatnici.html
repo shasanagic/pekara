@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Djelatnici pekare</title>
+<meta charset="utf-8">
+  <!--
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- -->
+  <!-- -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript  -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- CSS SKRIPTA  -->
+    <link rel="stylesheet" href="dizajnDjelatnici.css">
+  <!-- CSS SKRIPTA  -->
+
+
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+  <script>
+      // Initialize Firebase
+      var config = {
+          apiKey: "AIzaSyAjwOMH_MYRP37p4-1Mftj3eNIQJGPclv4",
+          authDomain: "test-za-web.firebaseapp.com",
+          databaseURL: "https://test-za-web.firebaseio.com",
+          projectId: "test-za-web",
+          storageBucket: "test-za-web.appspot.com",
+          messagingSenderId: "843603869280"
+      };
+      firebase.initializeApp(config);
+  </script>
+  <!--  SKRIPTA ZA SPAJANJE S FIREBASEOM,
+        OVO JE DATA SKRIPTA S FIREBASEA -->
+
+<!--  JS  -
+<script src="C:\Users\Sean\Documents\VS2017\dizajnPočetne\homeDizajn.js"></script>
+<!-- JS   -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--  JS  -->
+  <script src="dizajnDjelatnici.js"></script>
+  <!-- JS   -->
+
+
+
+
+  <!--  SCRIPTE ZA PRETVARANJE HTML U PDF  -->
+  <script src="js/jspdf.js"></script>
+	<script src="js/jquery-2.1.3.js"></script>
+	<script src="js/pdfFromHTML.js"></script>
+  <!--  SCRIPTE ZA PRETVARANJE HTML U PDF  -->
+                    <!--  SCRIPTE firebaseove  -->
+                    <!--	<script src="js/firebase.js"></script> -->
+                    <!--  SCRIPTE firebaseove  -->
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" >Djelatnici postrojenja</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="dizajnNaloga.html" >Nalog</a></li>
+
+        <li ><a href="dizajnSkladiste.html" >Skladište</a></li>
+        <li><a href="dizajnRecepture.html" >Recepture</a></li>
+        <li class="active"><a href="dizajnDjelatnici.html" >Djelatnici</a></li>
+
+
+        </li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Dobrodošli </a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Odjava</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <div class="container-fluid text-center">
+    <div class="row content">
+      <div class="col-sm-2 sidenav">
+
+<div><button class="btn-info disabled btn-lg bojaButtnona" onclick="show('divFormaZaUnosNovogDjelatnika');" type="button" name="button">Unos novog djelatnika</button></div><br>
+<div><button class="btn-info btn-lg disabled bojaButtnona" onclick="show('divZaPregledUnesenihDjelatnika');" type="button" name="button">Pregled dosadašnjih djelatnika</button></div><br>
+<div><button class="btn-info btn-lg disabled bojaButtnona hiddenDugme" onclick="show('divUredivanjeUnesenihDjelatnika');"  type="button" name="button" >Uređivanje dosadašnje unesenih djelatnika</button></div><br>
+</div>
+
+<!--      </div>  OVO JE BIO PRVI DIV OD LIJEVOG SIDE BARA	 -->
+<div class="col-sm-8 text-left glavniDioForme" id="divBezIcega">
+
+          <div class="active" id="divFormaZaUnosNovogDjelatnika">
+              <form id="forma" class="container-fluid col-6" name="formaUnosNovogRadnika" onsubmit="return validateForm()" method="post" onsubmit="return funkcijaProvjeriSvePodatke()">
+
+
+
+                  <h2 class="text text-center"><b><u>Unos novog korisnika </u></b> </h2> <br> <br>
+                  <!--  <form name="myForm" method="post" onsubmit="return funkcijaProvjeriSvePodatke()"> --->
+                  <!--   IME KORINSIKA  -->
+                  <div class="form-group">
+                      <label for="imeKorisnika">Ime korisnika: </label>
+                      <input type="text" name="imeKorisnika" class="form-control" placeholder="Unesite ime korisnika" id="txtImeKorisnika"><br>
+                  </div>
+                  <!--   IME KORINSIKA  -->
+
+                  <!--   PREZIME KORINSIKA  -->
+                  <div class="form-group">
+                      <label for="prezimeKorisnika">Prezime korisnika: </label>
+                      <input type="text" name="prezimeKorisnika" class="form-control" placeholder="Unesite prezime korisnika" id="txtPrezimeKorisnika"><br>
+                  </div>
+                  <!--   PREZIME KORINSIKA  -->
+
+                  <!--   LOZINKA KORINSIKA  -->
+                  <div class="">
+                  <label for="exampleInputPassword1">Lozinka:</label>
+                  <input type="password" name="lozinkaKorisnika" class="form-control" id="txtLozinka" placeholder="Unesite lozinku" autocomplete="off">
+                </div>
+                  <label>
+                    <input type="checkbox" onclick="funPrikaziLozinkuKorisniku()"> Pogledaj lozinku
+                  </label>
+                  <br>
+                  <br>
+                  <!--   LOZINKA KORINSIKA  -->
+
+                  <!--  POTVRDA LOZINKE KORINSIKA  -->
+                  <div class="">
+                  <label for="potvrdaLozinka">Potvrdi lozinku:</label>
+                  <input type="password" name="lozinkaKorisnikaProvjera" class="form-control" id="txtPotvrdaLozinka" placeholder="Ponovi lozinku" autocomplete="off">
+                  </div>
+                  <label>
+                    <input type="checkbox" onclick="funPrikaziPotvrdenuLozinkuKorisniku()"> Pogledaj lozinku
+                  </label>
+                  <br>
+                  <br>
+                  <!--  POTVRDA LOZINKE KORINSIKA  -->
+
+                  <!--   OIB KORINSIKA  -->
+                  <div class="form-group">
+                      <label for="oibKorisnika">OIB korisnika: </label>
+                      <input type="number" name="oibKorisnika" class="form-control" placeholder="Unesite OIB korisnika" id="txtOibKorisnika"><br>
+                  </div>
+                  <!--   OIB KORINSIKA  -->
+
+                  <!--   BROJ MOBITELA KORINSIKA  -->
+                  <div class="form-group">
+                      <label for="brojMobitela">Broj mobitela korisnika: </label>
+                      <input type="number" name="brojMobitela" class="form-control" placeholder="Unesite ime korisnika" id="txtBrojMobitelaKorisnika"><br>
+                  </div>
+                  <!--   BROJ MOBITELA KORINSIKA  -->
+
+
+
+
+<div class="">
+
+<button class="btn btn-success col-lg-3" type="button" name="button" onclick="funUnosKorisnika()">Potvrdi unos</button><br><br>
+<button class="btn btn-danger col-lg-3" type="submit" name="button" onclick="funOdbaciUnos()">Odbaci unos</button><br><br>
+</div><br>
+              </form>
+
+
+          </div>
+
+
+
+
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!--------------- NAPOMENA, TREBA DODATI FUNKCIJU NA UREDI LINK---------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+
+<!--  2. FORMA, PREGLED UNESENIH DJELATNIKA   -->
+          <div id="divZaPregledUnesenihDjelatnika" style="display:none">
+              <h2 class="text text-center"><b><u>Pregled unesenih djelatnika </u></b></h2><br>
+
+              <div class="wrapperZaButton">
+                <button id="btnDohvatiDjelatnikeDrugaFormaPregledDjelatnika" class="btn btn-success col-lg-5 buttonCenter" type="button" name="button" onclick="funPregledUnesenihKorisnika(); prikaziBtnZaIspisPDFa(); funSakriOvoDugmeNakonKlika();">Dohvati djelatnike</button>
+
+</div>
+
+
+
+
+<!-- OVAJ DIV JE ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+	       <div id="HTMLtoPDF">
+<!-- OVAJ DIV JE ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+              <table id="ex-table" class="table table-bordered table-hover">
+
+                          <tbody>
+                              <tr id="tr"></tr>
+                              <!-- table content  -->
+                          </tbody>
+                          <tfoot>
+                          </tfoot>
+                      </table>
+                      </div>
+
+                      <script>
+                              $(document).ready(function () {
+                                  // $('.table').DataTable(
+                                  //     {
+                                  //         language: {
+                                  //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                  //         }
+                                  //     }
+                                  // );
+                              });
+                          </script>
+	</div>
+
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+  <!--------------- NAPOMENA, TREBA DODATI FUNKCIJU NA UREDI LINK---------------->
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------->
+
+<!-- ZAVRŠAVA DRUGA FORMA "PREGLED UNESENIH DJELATNIKA"
+POČINJE IZ TABLICE DETALJAN PREGLED DJELATNIKA -->
+
+
+
+
+          <!-- TEST ZA DETALJAN PRIKAZ ARTIKLA -->
+          <div id="divDetaljanPregledDjelatnika" style="display:none">
+          <h2 class="text text-center"><b><u>Detaljan pregled artikla </u></b> </h2> <br> <br>
+          <table class="table table-bordered">
+            <!-- ZAGLAVLJE TABLICE DETEALNOG PREGLEDA ARTIKALA -->
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">Ime djelatnika</th>
+              <th scope="col" class="text-center">Sean</th>
+
+            </tr>
+          </thead>
+          <!-- BODY TABLICE DETEALJNOG DETALJNOG PREGLEDA ARTIKALA -->
+          <tbody>
+            <tr class="text-center">
+              <td>Prezime djelatnika</td>
+              <td>Hasanagić</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Broj mobitela</td>
+              <td>0914605389</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>OIB djelatnika</td>
+              <td>1234567890123</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Lozinka djelatnika</td>
+              <td>1234</td>
+            </tr>
+
+            <tr class="text-center">
+              <td>Rola</td>
+              <td>0</td>
+            </tr>
+
+
+          </tbody>
+        </table>
+          </div>
+<!--  2. FORMA, PREGLED UNESENIH ARTIKALA  KRAJ */   -->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!--------------- NAPOMENA, TREBA DODATI FUNKCIJU NA UREDI LINK---------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------->
+
+
+
+
+<!--  3. FORMA, UREĐIVANJE UNESENIH ARTIKALA   -->
+          <div id="divUredivanjeUnesenihDjelatnika" style="display:none">
+            <h2 class="text text-center"><b><u>Uređivanje unesenih djelatnika</u></b> </h2> <br> <br>
+            <!-- PRETRAŽI PO BROJU MOBITELA KORISNIKA  -->
+            <div class="form-group">
+                <label for="txtBrojMobitela" id="txtBrojMobitela">Broju mobitela: </label>
+                <input id="txtBrojMobitelaKorisnikaKojegPretrazujemo" type="number" name="txtBrojMobitela" class="form-control" placeholder="Unesite broj mobitela korisnika"><br>
+                <button class="btn btn-success col-lg-1" type="submit" name="btnBrojMobitelaKorisnika" id="btnBrojMobitelaKorisnikaUredivanjeKorisnika" onclick="show('divUrediPostojecegDjelatnika'); funDohvatiDodatnePostavkeDjelatnikaOib();">Pretraži</button><br>
+            </div>
+
+
+
+
+
+
+            <!-- PRETRAŽI PO BROJU MOBITELA KORISNIKA  -->
+
+            <!-- PRETRAŽI PO BROJU MOBITELA KORISNIKA  -->
+            <!-- ZAVRŠAVA -->
+            <div class="form-group">
+                <label for="txtOibKorisnika" id="txtBrojMobitela">Pretraži po OIB-u korinskia: </label>
+                <input id="txtOibKorisnikaKojegPretrazujemo" type="number" name="txtOibKorisnika" class="form-control" placeholder="Unesite OIB korisnika"><br>
+                <button class="btn btn-success col-lg-3" type="submit" name="txtOibKorisnikaNameButton" id="btnOibKorisnikaZaUredivanjeUnesenihKorisnika" onclick="show('divUrediPostojecegDjelatnika'); funDohvatiDodatnePostavkeDjelatnikaOib();">Pretraži po OIB-u</button><br>
+            </div>
+            <!-- PRETRAŽI PO BROJU MOBITELA KORISNIKA  -->
+</div>
+
+
+            <!-- TEST ZA DETALJAN PRIKAZ KORISNIKA -->
+            <div id="divUrediPostojecegDjelatnika" style="display:none">
+            <h2 class="text text-center"><b><u>Detaljan pregled djelatnika </u></b> </h2> <br> <br>
+
+                        <!-- POČINJE  -->
+                                      <table id="ex-tablee" class="table table-bordered table-hover">
+
+                                                  <tbody>
+                                                      <tr id="tr"></tr>
+
+                                                      <!-- table content  -->
+                                                  </tbody>
+                                                  <tfoot>
+                                                  </tfoot>
+                                              </table>
+
+
+                                              <script>
+                                                      $(document).ready(function () {
+                                                          // $('.table').DataTable(
+                                                          //     {
+                                                          //         language: {
+                                                          //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                                          //         }
+                                                          //     }
+                                                          // );
+                                                      });
+                                                  </script>
+<!-- ZAVRŠAVA -->
+
+
+
+<!-- POČINJE  -->
+
+
+
+              <table id="ex-tableOib" class="table table-bordered table-hover">
+
+                          <tbody>
+                              <tr id="tr"></tr>
+
+                              <!-- table content  -->
+                          </tbody>
+                          <tfoot>
+                          </tfoot>
+                      </table>
+                      <hr>
+
+                      <!--          TABLICA ZA UREĐIVANJE                  -->
+                      <table class="table table-bordered table-hover">
+                        <!-- <tr>
+                          <td> <input id="txtBrisanjeKorisnika" type="number" class="form-control" placeholder="Unesite ID korisnika:"> </td>
+                        </tr> -->
+                        <tr>
+                          <td> <input id="txtNoviBrojMobitela" type="number" class="form-control" placeholder="Unesite novi broj mobitela korisnika:" min="0910000000" max="0999999999">  </td>
+                        </tr>
+                        <tr>
+                          <td><button class="btn btn-warning promjeniBroj" type="button" name="button" >Promjeni</button> <button class="btn btn-danger" id="btnIzbrisiKorisnikaPoOibu" type="button" name="button" onclick=" funTestDruga();">Izbriši korisnika</button></td>
+                        </tr>
+
+                      </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      <!--  skripta za css za modal
+                      <style>
+                      body {font-family: Arial, Helvetica, sans-serif;}
+                      </style>
+                    <!--  zavrsava styl za modal                    -->
+
+<!-- POČINJE MODAL ZA UPDATE BROJA TELEFONA KORISNIKA
+  <!-- Trigger/Open The Modal
+  <input id="txtTestZaUpdate" type="text" name="" value="">
+  <button class="btn btn-info" id="myBtn">Izmjena na korisniku</button>
+
+  <!-- The Modal
+  <div id="myModal" class="modal">
+
+    <!-- Modal content
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <h4>Napomena !!!</h4>
+      <p>Na korisniku možete promjeniti isključivo telefonski broj</p>
+      <table border="1" class="table table-bordered table-hover">
+        <thead>
+          <tr class="text-center">
+            <td><b>Postojeći broj telefona</b></td>
+            <td><b>Unesite novi broj telefona</b></td>
+            <td><b>Potvrdite novi unos</b></td>
+          </tr>
+
+        </thead>
+        <tr class="text-center">
+          <td>
+            <input id="txtPostojeciBrojTelefonaKorisnikaKojegaZelimoPromjeniti" type="text" name="postojeciBrojTelefona" class="form-control" placeholder="Unesite postojeći broj telefona">
+          </td>
+          <td>
+            <input id="txtNoviBrojTelefonaKorisnikaKojegZelimoPromjeniti" type="number" name="noviBrojKorisnika" class="form-control" placeholder="Unesite novi telefonski broj korisnika">
+          </td>
+          <td><button onclick="funBlaBla();" class="btn btn-success" type="button" name="button">Potvrdi</button></td>
+        </tr>
+      </table>
+      <hr>
+
+
+      <button onclick="funTestZaModul();" type="button" name="button">testiraj modul da li dobija telefonski broj iz baze</button>
+
+    </div>
+  </div>
+
+  <script>
+  // Get the modal
+  var modal = document.getElementById('myModal');
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
+<!-- ZAVRŠAVA MODAL ZA UPDATE BROJA TELEFONA KORISNIKA  -->
+                      <script>
+                              $(document).ready(function () {
+                                  // $('.table').DataTable(
+                                  //     {
+                                  //         language: {
+                                  //             url: "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Croatian.json"
+                                  //         }
+                                  //     }
+                                  // );
+                              });
+                          </script>
+<!-- ZAVRŠAVA -->
+
+            <!--
+            <table class="table table-bordered">
+              <!-- ZAGLAVLJE TABLICE DETEALNOG PREGLEDA ARTIKALA
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">Djelatnik</th>
+                <th scope="col" class="text-center">Podatci</th>
+              </tr>
+            </thead>
+            <!-- BODY TABLICE DETEALJNOG DETALJNOG PREGLEDA ARTIKALA
+            <tbody>
+
+              <tr class="text-center">
+                <td>Ime</td>
+                <td>Sean</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Prezime</td>
+                <td>Hasanagić</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>lozinkaKorisnika</td>
+                <td><p style="color=red"> UNVISIBLE </p></td>
+              </tr>
+
+              <tr class="text-center">
+                <td>OIB: </td>
+                <td>123456789</td>
+              </tr>
+
+              <tr class="text-center">
+                <td>Broj mobitela</td>
+                <td>0914605389</td>
+                <td><button class="btn btn-warning btn-sm" onclick="show('divUrediArtikalDiv');">Uredi</button></td>
+              </tr>
+
+
+            </tbody>
+          </table>
+          -->
+            </div>
+
+<!--  3. FORMA, UREĐIVANJE UNESENIH ARTIKALA  KRAJ */  -->
+
+
+
+
+
+
+        <hr>
+    </div>
+
+      <div class="col-sm-2 sidenavDesni" id="divDesniSideNav">
+        <h4>Pomoć:</h4>
+        <p>Napomena: Brisanje korisnika vršite tako što kopirate korisnikov ID u polje za unos ID-a te klikom na dugme Izbrišite korisnika potvrdite unos</p><br>
+        <p>Napomena: Unesenom korisniku možete promjeniti samo broj telefona, u slučaju da VAm to ne odgovara unesite novog korinika ili se obratite Vašem proizvođaču sistema</p>
+
+      <!-- SAT NA DESNOM SIDENAVU  -->
+<!--
+        <p id="parSat"></p>
+        <script>
+var d = new Date();
+document.getElementById("parSat").innerHTML = d;
+</script>
+-->
+<!-- SAT NA DESNOM SIDENAVU  -->
+
+
+<!--  <button  href="#" onclick="HTMLtoPDF()" type="button" name="button">Preuzmi u PDF-u</button>    -->
+<!-- GUMB ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+<button id="btnSpremiTablicuDjelatnikaPDF" class="btn btn-info"  href="#" onclick="HTMLtoPDF()" type="button" name="button" style="display:none;">Preuzmi tablicu<br>djeltnika u PDF-u</button><br><br>
+<!-- <button type="button" name="button" onclick="funObrisiKorisnika();">Izbiši korisnika</button>
+<button id="btnDelete" onclick=" funTestDruga();" type="button" name="button">delete Data</button>
+<input id="txtBrisanjeKorisnika" type="text" name="" value="" placeholder="Unesite id Korisnika"><br>
+-->
+<!--
+<button onclick="btnTestZaUpdate()" type="button" name="button">Test button update</button>
+-->
+<!-- <input type="text" id="txtId3" /> -->
+<!-- GUMB ZA PREUZIMANJE U PDF-FORMATU GLAVNOG DIJELA FORME  -->
+      </div>
+      </div>
+    </div>
+
+</body>
+</html>

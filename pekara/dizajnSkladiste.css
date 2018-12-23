@@ -1,0 +1,106 @@
+/* Remove the navbar's default margin-bottom and rounded borders*/
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed)
+.row.content {height: 100%} a6a6a6
+*/
+/* Set gray background color and 100% height  tamno siva 42586c */
+/* standardna siva koja radi na malom ekranu ali ne na velikom f1f1f1 */
+.sidenav {
+  position: relative;
+  padding-top: 20px;
+  background-color: #a6a6a6;
+  height: 1000px;
+}
+
+/* razmisliti da li koristiti custom buttone  #262626*/
+.btnUredenZaSideNav{
+/*    background-color: #a6a6a6;    */
+position: static;
+padding-top: 20px;
+    background-color: white;
+    color: black;
+    font-style: normal;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.bojaButtnona{
+  color: #262626;
+}
+
+
+
+.sidenavDesni {
+  position: static;
+  padding-top: 20px;
+  background-color: #a6a6a6;
+height: 1000px;
+}
+
+
+.glavniDioForme {
+  position: relative;
+  padding-top: 20px;
+/*  background-color: #f2fffa;    */
+height: 1000px;
+overflow-y: scroll;
+}
+
+.linkSideNavUredeno {
+    color: #333333;
+  font-size: 18px;
+}
+
+.napomenaIliAlert {
+    color: #ff0000;
+  font-size: 10px;
+}
+
+/* Set black background color, white text and some padding */
+.footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+
+
+/* On small screens, set height to 'auto' for sidenav and grid
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {height:auto;}
+  */
+  .small-btn {
+        width: 50px;
+        height: 25px;
+    }
+
+    .medium-btn {
+        width: 70px;
+        height: 30px;
+    }
+
+    .big-btn {
+        width: 150px;
+        height: 50px;
+    }
+
+    .hidden {
+        display: block;
+    }
+
+}
+.sakrivenoDugme {
+  visibility: hidden;
+}
